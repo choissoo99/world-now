@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
@@ -27,9 +27,9 @@ const filters: Array<{ key: FilterType; label: string }> = [
 
 function MapController({ event, focusRequest }: { event: DisasterEvent | null; focusRequest: number }) {
   const map = useMap();
-  useMemo(() => {
+  useEffect(() => {
     if (event) {
-      window.setTimeout(() => map.flyTo([event.latitude, event.longitude], Math.max(map.getZoom(), 6), { duration: 1.1 }), 0);
+      map.flyTo([event.latitude, event.longitude], Math.max(map.getZoom(), 6), { duration: 1.1 });
     }
   }, [event, focusRequest, map]);
   return null;
@@ -105,7 +105,6 @@ export default function WorldMap({ events, selectedEvent, onSelect, focusRequest
           />
           <ZoomWatcher onZoom={setZoom} />
           <MapController event={selectedEvent} focusRequest={focusRequest} />
-
           <MarkerClusterGroup chunkedLoading maxClusterRadius={45} showCoverageOnHover={false} spiderfyOnMaxZoom>
             {visible.map((event) => {
               const selected = selectedEvent?.id === event.id;
