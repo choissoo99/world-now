@@ -23,7 +23,9 @@ npm install
 npm run dev
 ```
 
-## 빌드
+## 빌드 검증
+GitHub Actions에서 `npm install` 후 `npm run build`를 실행합니다.
+
 ```bash
 npm run build
 ```
